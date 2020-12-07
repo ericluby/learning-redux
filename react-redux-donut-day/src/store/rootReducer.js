@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import { donuts } from '../modules/donuts'
+import { donutsReducer } from '../modules/donuts'
 
 let rootReducer = combineReducers({
-  donuts
+  donutsReducer
 });
 
 export default rootReducer;

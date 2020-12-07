@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import InputField from '../components/InputField'
 
+import { addNewDonut, handleNameChange, handleFlavorChange, clearForm } from '../modules/donuts'
+
 class NewDonutOrderFormContainer extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +28,14 @@ class NewDonutOrderFormContainer extends Component {
 
     // Your code here
     // First, prepare a new donut order object
+    const newDonut = {
+      id: this.calculateNewId(),
+      name: this.props.name,
+      flavor: this.props.flavor
+    }
     // Then, add that object to the store, and clear the form
+    this.props.addNewDonut(newDonut)
+    this.props.clearForm()
   }
 
   render() {
@@ -39,13 +48,16 @@ class NewDonutOrderFormContainer extends Component {
             label='Your Name'
             type='text'
             name='newName'
+            value={this.props.name}
+            handleChange={this.props.handleNameChange}
           />
           <InputField
             key='newFlavor'
             label='Flavor'
             type='text'
             name='newFlavor'
-            handleChange={this.props.handleFieldChange}
+            value={this.props.flavor}
+            handleChange={this.props.handleFlavorChange}
           />
           <input type='submit' />
         </form>
@@ -54,4 +66,24 @@ class NewDonutOrderFormContainer extends Component {
   }
 };
 
-export default NewDonutOrderFormContainer;
+const mapStateToProps = (state) => {
+  return {
+    donutOrderList: state.donutsReducer.donutOrderList,
+    name: state.donutsReducer.name,
+    flavor: state.donutsReducer.flavor
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewDonut: (donut) => {dispatch(addNewDonut(donut))},
+    handleNameChange: (event) => {dispatch(handleNameChange(event))},
+    handleFlavorChange: (event) => {dispatch(handleFlavorChange(event))},
+    clearForm: () => dispatch(clearForm())
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NewDonutOrderFormContainer)

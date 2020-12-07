@@ -25,7 +25,7 @@ class DonutOrdersIndexContainer extends Component {
 
 const mapStateToProps = (state) => {
   return{
-    donutOrderList: state.donuts.donutOrderList
+    donutOrderList: state.donutsReducer.donutOrderList
   }
 }
 
